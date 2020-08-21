@@ -3,20 +3,18 @@
 ![travis-ci](https://travis-ci.org/BugSplat-Git/bugsplat-js.svg?branch=master)
 ## Introduction
 
-TODO BG
-
-BugSplat's JavaScript integration works with applications that support npm including Node.js, and Electron. Before continuing with the tutorial please make sure you have completed the following checklist:
+BugSplat-node is a JavaScript error reporting system for Node.js and Electron applications. Before continuing with the tutorial please make sure you have completed the following checklist:
 * [Sign Up](https://app.bugsplat.com/v2/sign-up) as a new BugSplat user.
 * [Log In](https://app.bugsplat.com/auth0/login) using your email address.
 
 ## Configuration
 To add the bugsplat package to your application, run the following shell command at the root of your project’s directory:
 ```shell
-npm install --save bugsplat
+npm install --save bugsplat-node
 ```
 Require the bugsplat module at the entry point of your application. 
 ```js
-const BugSplat = require("bugsplat");
+const BugSplat = require("bugsplat-node");
 ```
 Create a new instance of the BugSplat class with the name of your BugSplat database, the name of your application and the version of your application:
  ```js
@@ -36,7 +34,7 @@ Throw an exception after the event handler has been added.
 throw new Error("BugSplat!");
 ```
 
-You can also use bugsplat-js to post errors from non-fatal promise rejections and errors that originate inside of try-catch blocks:
+You can also use bugsplat-node to post errors from non-fatal promise rejections and errors that originate inside of try-catch blocks:
 ```js
 Promise.reject(new Error("BugSplat!")).catch(error => bugsplat.post(error, {}));
 ```
@@ -48,10 +46,10 @@ try {
 }
 ```
 
-After posting an error with bugsplat-js, navigate to the [Crashes](https://app.bugsplat.com/v2/crashes?database=Demo) page. You should see a new crash report for the application you just configured. Click the link in the ID column to see details about your crash on the [Crash](https://app.bugsplat.com/v2/crash?database=Demo&id=405) page:
+After posting an error with bugsplat-node, navigate to the [Crashes](https://app.bugsplat.com/v2/crashes?database=Demo) page. You should see a new crash report for the application you just configured. Click the link in the ID column to see details about your crash on the [Crash](https://app.bugsplat.com/v2/crash?database=Demo&id=405) page:
 
-![Crashes](https://s3.amazonaws.com/bugsplat-public/npm/bugsplat-js/crashes.png)
-![Crash](https://s3.amazonaws.com/bugsplat-public/npm/bugsplat-js/crash.png)
+![Crashes](https://s3.amazonaws.com/bugsplat-public/npm/bugsplat-node/crashes.png)
+![Crash](https://s3.amazonaws.com/bugsplat-public/npm/bugsplat-node/crash.png)
 
 That’s it! Your application is now configured to post crash reports to BugSplat.
 
