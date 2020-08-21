@@ -1,6 +1,6 @@
 {
   "name": "bugsplat-node",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "BugSplat integration for node.js 12+",
   "main": "bugsplat-node.js",
   "scripts": {
@@ -23,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^14.6.0",
-    "bugsplat": "^5.0.0"
+    "bugsplat": "^6.0.0"
   },
   "devDependencies": {
     "jasmine": "^3.6.1",
