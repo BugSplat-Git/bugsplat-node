@@ -1,6 +1,6 @@
 [![BugSplat](https://s3.amazonaws.com/bugsplat-public/npm/header.png)](https://www.bugsplat.com)
 
-![travis-ci](https://travis-ci.org/BugSplat-Git/bugsplat-js.svg?branch=master)
+![travis-ci](https://travis-ci.org/BugSplat-Git/bugsplat-node.svg?branch=master)
 ## Introduction
 
 BugSplat-node is a JavaScript error reporting system for Node.js and Electron applications. Before continuing with the tutorial please make sure you have completed the following checklist:
@@ -73,4 +73,4 @@ Additionally you can use [domains](https://nodejs.org/api/domain.html#domain_war
 
 More information regarding domain deprecation can be found [here](https://github.com/nodejs/node/issues/10843).
 ## Contributing
-BugSplat loves open source software! Please check out our project on [GitHub](https://github.com/BugSplat-Git/bugsplat-js) and send us a Pull Request.
+BugSplat loves open source software! Please check out our project on [GitHub](https://github.com/BugSplat-Git/bugsplat-node) and send us a Pull Request.

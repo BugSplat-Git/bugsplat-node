@@ -1,0 +1,20 @@
+language: node_js
+dist: trusty
+node_js:
+- '12'
+- node
+env:
+  global:
+  - DBUS_SESSION_BUS_ADDRESS=/dev/null
+  - DISPLAY=:99.0
+  - CHROME_BIN=chromium-browser
+install:
+- npm install
+script:
+- npm run test
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+  slack:
+    secure: nV+VIwBt3G5R4+kwDqpJDBba4K5/RkNGpf4GzCUhFrocL8zmTPHpDDToKF1Evf4JbL9EBYR0w3CLR1uz5xkJy8gBdMCy/BMU8gFXKrHL8m8skLjW5bTRSXvqtC5Kclc8u7ISJmQxTiIZKnySyNLN6hVmmeuf50KUluHXBI7juosytwqQRje+98KeqlVNMX03Oix1x69qViTMoenjqa5uabdKfHdAUVVGUQbTeWwTT4SndCBHMV8rEtOjei349C0S5gyI3/nZUA8zilp07i8wOqBZSSeMHRkNG/lpBtuiDnkib3VOyxHATt5sTv2cw3EsChXjs5Hj8FYLOX0Yxxfyrn2E9bbm5/aaoOpy//C6wCOmdLkSh0o6CwbK1tIS0fopdUM6NMXCfnV9UioDWMEAHgY4KmZoJENrauC7n4LqYz+p5klv3iuoXRPy4QJ6H8cRhqhqfXztoT46PHZI94TGzljK+i5aOp7BYRKXgGg71TnbQPZtFl/J17pdI+jRVGLuFwmfIoZtaxxaF1nsrEi1EFE0sj6BWgpFpXda3MN0W3mEgtMA5gyCmBPjGyrB1CXD1GbwpS7JEgisic8taKAAy+50ceNVQK2prGchW68xkGT4UsgdzzJ+AuzDmsJnCD1jYnZ55uxbfelCgu7AyTTLIJkbrOWpWugfKdMO7wvNHEE=
