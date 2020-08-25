@@ -36,6 +36,7 @@ module.exports = function (database, appName, appVersion) {
 
         const additionalFilePaths = options.additionalFilePaths || this._additionalFilePaths;
         const additionalFormDataParams = this._createAdditionalFilesFormParams(additionalFilePaths);
+        delete options.additionalFilePaths;
         
         return this._bugsplat.post(errorToPost, {
             ...options,
