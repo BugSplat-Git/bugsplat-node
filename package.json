@@ -1,6 +1,6 @@
 {
   "name": "bugsplat-node",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "BugSplat integration for node.js 12+",
   "main": "bugsplat-node.js",
   "scripts": {
