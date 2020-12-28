@@ -1,4 +1,4 @@
-const BugSplat = require('bugsplat');
+const { BugSplat } = require('bugsplat');
 const fs = require('fs');
 const path = require('path');
 
@@ -37,7 +37,7 @@ module.exports = function (database, appName, appVersion) {
         const additionalFilePaths = options.additionalFilePaths || this._additionalFilePaths;
         const additionalFormDataParams = this._createAdditionalFilesFormParams(additionalFilePaths);
         delete options.additionalFilePaths;
-        
+
         return this._bugsplat.post(errorToPost, {
             ...options,
             additionalFormDataParams
@@ -60,7 +60,7 @@ module.exports = function (database, appName, appVersion) {
                 if (totalZipSize <= 1048576) {
                     const fileName = this._path.basename(filePath);
                     const fileContents = this._fs.createReadStream(filePath);
-                    params.push({ 
+                    params.push({
                         key: fileName,
                         value: fileContents
                     });
