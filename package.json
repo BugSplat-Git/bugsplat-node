@@ -4,8 +4,10 @@
   "description": "BugSplat integration for node.js 12+",
   "main": "bugsplat-node.js",
   "scripts": {
-    "test": "jasmine spec/bugsplat-node.spec.js",
-    "e2e": "jasmine e2e/bugsplat-node.e2e.spec.js",
+    "test": "jasmine --config=spec/support/jasmine.json",
+    "test:teamcity": "jasmine --config=spec/support/jasmine.teamcity.json",
+    "e2e": "jasmine --config=spec/support/jasmine.e2e.json",
+    "e2e:teamcity": "jasmine --config=spec/support/jasmine.teamcity.e2e.json",
     "dist": "mkdir  -p ./dist && cp ./{bugsplat-node.js,bugsplat-node.d.ts,package.json,README.md} ./dist"
   },
   "keywords": [
@@ -33,6 +35,7 @@
   },
   "devDependencies": {
     "jasmine": "^3.6.1",
+    "jasmine-reporters": "^2.4.0",
     "request": "^2.88.2"
   }
 }

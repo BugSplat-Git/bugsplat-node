@@ -1,4 +1,4 @@
-const BugSplatNode = require('../bugsplat-node');
+const BugSplatNode = require('../../bugsplat-node');
 const request = require('request');
 const username = 'Fred';
 const password = 'Flintstone';
