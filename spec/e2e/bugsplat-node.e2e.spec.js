@@ -1,4 +1,4 @@
-const BugSplatNode = require('../bugsplat-node');
+const BugSplatNode = require('../../bugsplat-node');
 const { BugSplatApiClient, Environment, CrashApiClient } = require('@bugsplat/js-api-client');
 const username = 'fred@bugsplat.com';
 const password = process.env.FRED_PASSWORD;
