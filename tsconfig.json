@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+      "target": "es5",
+      "module": "commonjs",
+      "moduleResolution": "Node",
+      "outDir": "./dist",
+      "declaration": true,
+      "sourceMap": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "noImplicitAny": false,
+      "removeComments": true,
+      "strict": true,
+  },
+  "files": [
+      "./src/index.ts"
+  ]
+}

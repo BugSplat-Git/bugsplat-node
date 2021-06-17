@@ -1,55 +1,43 @@
-const { BugSplat } = require('bugsplat');
-const fs = require('fs');
-const path = require('path');
+import { BugSplat, FormDataParam } from 'bugsplat';
+import fs from 'fs';
+import path from 'path';
+import { BugSplatNodeOptions } from './bugsplat-node-options';
 
-module.exports = function (database, appName, appVersion) {
-    this._bugsplat = new BugSplat(database, appName, appVersion);
-    this._fs = fs;
-    this._path = path;
-    this._process = process;
-    this._console = console;
+export class BugSplatNode extends BugSplat {
+    private _fs = fs;
+    private _path = path;
+    private _process = process;
+    private _console = console;
 
-    this._additionalFilePaths = [];
+    private _additionalFilePaths: Array<string> = [];
 
-    this.setDefaultAdditionalFilePaths = (filePaths) => {
-        this._additionalFilePaths = filePaths;
+    constructor(database: string, application: string, version: string) {
+        super(database, application, version);
     }
 
-    this.setDefaultAppKey = (appKey) => {
-        this._bugsplat.setDefaultAppKey(appKey);
+    setDefaultAdditionalFilePaths(additionalFilePaths: Array<string>): void {
+        this._additionalFilePaths = additionalFilePaths;
     }
 
-    this.setDefaultDescription = (description) => {
-        this._bugsplat.setDefaultDescription(description);
-    }
-
-    this.setDefaultEmail = (email) => {
-        this._bugsplat.setDefaultEmail(email);
-    }
-
-    this.setDefaultUser = (user) => {
-        this._bugsplat.setDefaultUser(user);
-    }
-
-    this.post = async (errorToPost, options) => {
+    async post(errorToPost: Error, options?: BugSplatNodeOptions) {
         options = options || {};
 
         const additionalFilePaths = options.additionalFilePaths || this._additionalFilePaths;
-        const additionalFormDataParams = this._createAdditionalFilesFormParams(additionalFilePaths);
+        const additionalFormDataParams = this.createAdditionalFilesFormParams(additionalFilePaths);
         delete options.additionalFilePaths;
 
-        return this._bugsplat.post(errorToPost, {
+        return super.post(errorToPost, {
             ...options,
             additionalFormDataParams
         });
     }
 
-    this.postAndExit = async (errorToPost, options) => {
+    async postAndExit (errorToPost: Error, options?: BugSplatNodeOptions) {
         return this.post(errorToPost, options).then(() => this._process.exit(1));
     }
 
-    this._createAdditionalFilesFormParams = (additionalFilePaths) => {
-        const params = [];
+    private createAdditionalFilesFormParams(additionalFilePaths: Array<string>): Array<FormDataParam> {
+        const params: Array<any> = [];
 
         let totalZipSize = 0;
         for (var i = 0; i < additionalFilePaths.length; i++) {
@@ -62,7 +50,7 @@ module.exports = function (database, appName, appVersion) {
                     const fileContents = this._fs.createReadStream(filePath);
                     params.push({
                         key: fileName,
-                        value: fileContents
+                        value: <fs.ReadStream>fileContents
                     });
                 } else {
                     this._console.error(`BugSplat upload limit of 1MB exceeded, skipping file: ${filePath}`);
@@ -75,4 +63,4 @@ module.exports = function (database, appName, appVersion) {
 
         return params;
     }
-};
+}

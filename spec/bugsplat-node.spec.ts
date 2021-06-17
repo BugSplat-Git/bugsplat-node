@@ -1,17 +1,17 @@
-const BugSplatNode = require('../bugsplat-node');
+import { BugSplatNode } from '../src/index';
 
 describe('bugsplat-node', () => {
+    let bugsplat;
     let bugsplatNode
 
     beforeEach(() => {
-        bugsplatNode = new BugSplatNode('Fred', 'myNodeCrasher', '1.0.0');
-        bugsplatNode._bugsplat = {
-            setDefaultAppKey: jasmine.createSpy(),
-            setDefaultDescription: jasmine.createSpy(),
-            setDefaultEmail: jasmine.createSpy(),
-            setDefaultUser: jasmine.createSpy(),
-            post: jasmine.createSpy()
-        };
+        bugsplatNode = new BugSplatNode('Fred', 'my-node-crasher', '1.0.0');
+        bugsplat = Object.getPrototypeOf(Object.getPrototypeOf(bugsplatNode));
+        spyOn(bugsplat, 'setDefaultAppKey');
+        spyOn(bugsplat, 'setDefaultDescription');
+        spyOn(bugsplat, 'setDefaultEmail');
+        spyOn(bugsplat, 'setDefaultUser');
+        spyOn(bugsplat, 'post');
     });
 
     describe('setDefaultAppKey', () => {
@@ -19,7 +19,7 @@ describe('bugsplat-node', () => {
             const appKey = '🐶';
             bugsplatNode.setDefaultAppKey(appKey);
 
-            expect(bugsplatNode._bugsplat.setDefaultAppKey).toHaveBeenCalled();
+            expect(bugsplat.setDefaultAppKey).toHaveBeenCalled();
         });
     });
 
@@ -28,7 +28,7 @@ describe('bugsplat-node', () => {
             const description = '🐶';
             bugsplatNode.setDefaultDescription(description);
 
-            expect(bugsplatNode._bugsplat.setDefaultDescription).toHaveBeenCalled();
+            expect(bugsplat.setDefaultDescription).toHaveBeenCalled();
         });
     });
 
@@ -37,7 +37,7 @@ describe('bugsplat-node', () => {
             const email = '🐶';
             bugsplatNode.setDefaultEmail(email);
 
-            expect(bugsplatNode._bugsplat.setDefaultEmail).toHaveBeenCalled();
+            expect(bugsplat.setDefaultEmail).toHaveBeenCalled();
         });
     });
 
@@ -46,7 +46,7 @@ describe('bugsplat-node', () => {
             const user = '🐶';
             bugsplatNode.setDefaultUser(user);
 
-            expect(bugsplatNode._bugsplat.setDefaultUser).toHaveBeenCalled();
+            expect(bugsplat.setDefaultUser).toHaveBeenCalled();
         });
     });
 
@@ -81,7 +81,7 @@ describe('bugsplat-node', () => {
 
             await bugsplatNode.post(error, options);
 
-            expect(bugsplatNode._bugsplat.post).toHaveBeenCalledWith(error, {
+            expect(bugsplat.post).toHaveBeenCalledWith(error, {
                 ...options,
                 additionalFormDataParams: []
             });
@@ -100,12 +100,15 @@ describe('bugsplat-node', () => {
             await bugsplatNode.post(new Error('oof'));
 
             expect(bugsplatNode._fs.statSync).toHaveBeenCalledWith(filePath);
-            expect(bugsplatNode._bugsplat.post).toHaveBeenCalledWith(jasmine.anything(), jasmine.objectContaining({
-                additionalFormDataParams: [{
-                    key,
-                    value
-                }]
-            }));
+            expect(bugsplat.post).toHaveBeenCalledWith(
+                jasmine.anything(),
+                jasmine.objectContaining({
+                    additionalFormDataParams: [{
+                        key,
+                        value
+                    }]
+                })
+            );
         });
 
         it('should overwrite default additionalFilePaths if provided by post options', async () => {
@@ -123,12 +126,15 @@ describe('bugsplat-node', () => {
 
             expect(bugsplatNode._fs.statSync).not.toHaveBeenCalledWith(defaultFilePath);
             expect(bugsplatNode._fs.statSync).toHaveBeenCalledWith(optionsFilePath);
-            expect(bugsplatNode._bugsplat.post).toHaveBeenCalledWith(jasmine.anything(), jasmine.objectContaining({
-                additionalFormDataParams: [{
-                    key,
-                    value
-                }]
-            }));
+            expect(bugsplat.post).toHaveBeenCalledWith(
+                jasmine.anything(),
+                jasmine.objectContaining({
+                    additionalFormDataParams: [{
+                        key,
+                        value
+                    }]
+                })
+            );
         });
 
         it('should skip adding files to post options if they cause the bundle size limit to be exceeded', async () => {
@@ -137,9 +143,12 @@ describe('bugsplat-node', () => {
 
             await bugsplatNode.post(new Error('oof'), { additionalFilePaths: ['💪'] });
 
-            expect(bugsplatNode._bugsplat.post).toHaveBeenCalledWith(jasmine.anything(), jasmine.objectContaining({
-                additionalFormDataParams: []
-            }));
+            expect(bugsplat.post).toHaveBeenCalledWith(
+                jasmine.anything(),
+                jasmine.objectContaining({
+                    additionalFormDataParams: []
+                })
+            );
         });
 
         it('should log an error when a adding a file to post options if they cause the bundle size limit to be exceeded', async () => {
