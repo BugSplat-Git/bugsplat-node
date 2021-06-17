@@ -20,7 +20,7 @@ describe('BugSplatNode', () => {
         const user = 'User!';
         const email = 'fred@bedrock.com';
         const description = 'Description!';
-        const additionalFile = './e2e/files/additionalFile.txt';
+        const additionalFile = './spec/e2e/files/additionalFile.txt';
         const bugsplat = new BugSplatNode(database, appName, appVersion);
         bugsplat.setDefaultAppKey(appKey);
         bugsplat.setDefaultUser(user);
