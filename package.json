@@ -29,10 +29,10 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^14.6.0",
-    "bugsplat": "^7.0.0"
+    "bugsplat": "^7.0.2"
   },
   "devDependencies": {
-    "jasmine": "^3.6.1",
-    "request": "^2.88.2"
+    "@bugsplat/js-api-client": "^0.0.6",
+    "jasmine": "^3.6.1"
   }
 }

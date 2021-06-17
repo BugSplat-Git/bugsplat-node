@@ -1,10 +1,16 @@
 const BugSplatNode = require('../bugsplat-node');
-const request = require('request');
-const username = 'Fred';
-const password = 'Flintstone';
-const appBaseUrl = 'https://app.bugsplat.com';
+const { BugSplatApiClient, Environment, CrashApiClient } = require('@bugsplat/js-api-client');
+const username = 'fred@bugsplat.com';
+const password = process.env.FRED_PASSWORD;
+const host = 'https://app.bugsplat.com';
 
 describe('BugSplatNode', () => {
+    beforeEach(() => {
+        if (!password) {
+            throw new Error('Please set FRED_PASSWORD environment variable');
+        }
+    });
+
     it('should post a crash report with all provided information', async () => {
         const database = 'fred';
         const appName = 'my-node-crasher';
@@ -28,7 +34,10 @@ describe('BugSplatNode', () => {
         }
     
         const expectedCrashId = result.response.crash_id;
-        const crashData = await getCrashData(database, expectedCrashId);
+        const client = new BugSplatApiClient(host, Environment.Node);
+        await client.login(username, password);
+        const crashApiClient = new CrashApiClient(client);
+        const crashData = await crashApiClient.getCrashById(database, expectedCrashId);
     
         expect(crashData['appName']).toEqual(appName);
         expect(crashData['appVersion']).toEqual(appVersion);
@@ -38,73 +47,3 @@ describe('BugSplatNode', () => {
         expect(crashData['email']).toBeTruthy()  // Fred has PII obfuscated so the best we can do here is to check if truthy
     }, 30000);
 });
-
-function getCrashData(database, crashId) {
-    return new Promise(function (resolve, reject) {
-        const cookieJar = request.jar();
-        postLogin(username, password, cookieJar)
-            .then(function () {
-                const getOptions = getCrashDataRequestOptions(database, crashId, cookieJar);
-                request(getOptions, function (error, response, body) {
-                    if (error) throw new Error(error);
-                    console.log('GET individualCrash status code:', response.statusCode);
-                    console.log('GET individualCrash body:', body);
-                    resolve(JSON.parse(body));
-                });
-            });
-    });
-}
-
-function getCrashDataRequestOptions(database, crashId, cookieJar) {
-    return {
-        method: 'GET',
-        url: appBaseUrl + '/api/crash/data',
-        qs: {
-            'database': database,
-            'id': crashId,
-        },
-        headers:
-            {
-                'cache-control': 'no-cache',
-                'content-type': 'application/x-www-form-urlencoded'
-            },
-        jar: cookieJar
-    };
-}
-
-function postLogin(username, password, cookieJar) {
-    return new Promise(function (resolve, reject) {
-        const postOptions = getLoginPostRequestOptions(username, password, cookieJar);
-        request(postOptions, function (error, response, body) {
-            if (error) throw new Error(error);
-            console.log('POST login status code:', response.statusCode);
-            console.log('POST login body:', body);
-            response.headers['set-cookie'].forEach(function (cookie) {
-                if (cookie.includes('PHPSESSID')) {
-                    cookieJar.setCookie(cookie, appBaseUrl);
-                    resolve();
-                }
-            });
-        });
-    });
-}
-
-function getLoginPostRequestOptions(username, password, cookieJar) {
-    return {
-        method: 'POST',
-        url: appBaseUrl + '/api/authenticatev3.php',
-        headers:
-            {
-                'cache-control': 'no-cache',
-                'content-type': 'application/x-www-form-urlencoded'
-            },
-        form:
-            {
-                email: username,
-                password: password,
-                Login: 'Login'
-            },
-        followAllRedirects: true,
-        jar: cookieJar
-    };
-}
