@@ -1,0 +1,8 @@
+{
+    "spec_dir": "spec/e2e",
+    "spec_files": [
+      "*.e2e.spec.js"
+    ],
+    "stopSpecOnExpectationFailure": false,
+    "random": true
+  }

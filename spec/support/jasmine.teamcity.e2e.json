@@ -1,0 +1,11 @@
+{
+    "spec_dir": "spec/e2e",
+    "spec_files": [
+        "*.e2e.spec.js"
+    ],
+    "helpers": [
+      "./support/teamcity.js"
+    ],
+    "stopSpecOnExpectationFailure": false,
+    "random": true
+}
