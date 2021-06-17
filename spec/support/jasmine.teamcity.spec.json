@@ -1,11 +1,11 @@
 {
     "spec_dir": "spec",
     "spec_files": [
-      "*.spec.js"
+        "*.spec.ts"
     ],
     "helpers": [
-      "./support/teamcity.js"
+        "./support/teamcity.ts"
     ],
     "stopSpecOnExpectationFailure": false,
     "random": true
-  }
+}

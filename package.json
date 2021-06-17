@@ -2,14 +2,18 @@
   "name": "bugsplat-node",
   "version": "1.1.1",
   "description": "BugSplat integration for node.js 12+",
-  "main": "bugsplat-node.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "test": "jasmine --config=spec/support/jasmine.json",
-    "test:teamcity": "jasmine --config=spec/support/jasmine.teamcity.json",
-    "e2e": "jasmine --config=spec/support/jasmine.e2e.json",
-    "e2e:teamcity": "jasmine --config=spec/support/jasmine.teamcity.e2e.json",
-    "dist": "mkdir  -p ./dist && cp ./{bugsplat-node.js,bugsplat-node.d.ts,package.json,README.md} ./dist"
+    "test": "ts-node node_modules/jasmine/bin/jasmine --config=spec/support/jasmine.spec.json",
+    "test:teamcity": "ts-node node_modules/jasmine/bin/jasmine --config=spec/support/jasmine.teamcity.spec.json",
+    "e2e": "ts-node node_modules/jasmine/bin/jasmine --config=spec/support/jasmine.e2e.json",
+    "e2e:teamcity": "ts-node node_modules/jasmine/bin/jasmine --config=spec/support/jasmine.teamcity.e2e.json",
+    "build": "tsc",
+    "release": "npm run build && npm publish --access public"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "bugsplat",
     "crash",
@@ -30,12 +34,15 @@
   "author": "@bobbyg603",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^14.6.0",
     "bugsplat": "^7.0.2"
   },
   "devDependencies": {
+    "@types/jasmine": "^3.7.7",
+    "@types/node": "^14.6.0",
     "@bugsplat/js-api-client": "^0.0.6",
     "jasmine": "^3.6.1",
-    "jasmine-reporters": "^2.4.0"
+    "jasmine-reporters": "^2.4.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.3"
   }
 }

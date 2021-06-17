@@ -1,7 +1,7 @@
-const BugSplatNode = require('../../bugsplat-node');
-const { BugSplatApiClient, Environment, CrashApiClient } = require('@bugsplat/js-api-client');
+import { BugSplatNode } from '../../src/index';
+import { BugSplatApiClient, Environment, CrashApiClient } from '@bugsplat/js-api-client';
 const username = 'fred@bugsplat.com';
-const password = process.env.FRED_PASSWORD;
+const password = process.env.FRED_PASSWORD ?? '';
 const host = 'https://app.bugsplat.com';
 
 describe('BugSplatNode', () => {
@@ -30,7 +30,7 @@ describe('BugSplatNode', () => {
         const result = await bugsplat.post(error);
         
         if (result.error) {
-            throw new Error(result.error);
+            throw result.error;
         }
     
         const expectedCrashId = result.response.crash_id;
