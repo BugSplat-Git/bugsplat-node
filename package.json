@@ -31,11 +31,11 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^14.6.0",
-    "bugsplat": "^7.0.0"
+    "bugsplat": "^7.0.2"
   },
   "devDependencies": {
+    "@bugsplat/js-api-client": "^0.0.6",
     "jasmine": "^3.6.1",
-    "jasmine-reporters": "^2.4.0",
-    "request": "^2.88.2"
+    "jasmine-reporters": "^2.4.0"
   }
 }
