@@ -34,12 +34,12 @@
   "author": "@bobbyg603",
   "license": "MIT",
   "dependencies": {
-    "bugsplat": "^7.0.2"
+    "bugsplat": "^7.1.0"
   },
   "devDependencies": {
+    "@bugsplat/js-api-client": "^0.0.6",
     "@types/jasmine": "^3.7.7",
     "@types/node": "^14.6.0",
-    "@bugsplat/js-api-client": "^0.0.6",
     "jasmine": "^3.6.1",
     "jasmine-reporters": "^2.4.0",
     "ts-node": "^10.0.0",
