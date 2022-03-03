@@ -8,17 +8,18 @@ BugSplat-node is a JavaScript error reporting system for Node.js and Electron ap
 * [Log In](https://app.bugsplat.com/auth0/login) using your email address.
 
 ## Configuration
+
 To add the bugsplat package to your application, run the following shell command at the root of your project’s directory:
 ```shell
 npm install --save bugsplat-node
 ```
 Require the bugsplat module at the entry point of your application. 
 ```js
-const BugSplat = require("bugsplat-node");
+const { BugSplatNode } = require("bugsplat-node");
 ```
 Create a new instance of the BugSplat class with the name of your BugSplat database, the name of your application and the version of your application:
  ```js
- const bugsplat = new BugSplat("DatabaseName", "AppName", "1.0.0.0");
+ const bugsplat = new BugSplatNode("DatabaseName", "AppName", "1.0.0.0");
  ```
 Set the bugsplat.post function as an event handler for uncaught exceptions:
 ```js
@@ -54,6 +55,7 @@ After posting an error with bugsplat-node, navigate to the [Crashes](https://app
 That’s it! Your application is now configured to post crash reports to BugSplat.
 
 ## API
+
 In addition to the configuration demonstrated above, there are a few public methods that can be used to customize your BugSplat integration:
 ```js
 bugsplat.setDefaultAppKey(appKey); // Additional metadata that can be queried via BugSplat's web application
@@ -66,11 +68,15 @@ bugsplat.post(error, options); // Posts an arbitrary Error object to BugSplat
 // If the values options.appKey, options.user, options.email, options.description, options.additionalFilePaths are set the corresponding default values will be overwritten
 // Returns a promise that resolves with properties: error (if there was an error posting to BugSplat), response (the response from the BugSplat crash post API), and original (the error passed by bugsplat.post)
 ```
+
 ## Additional Considerations
+
 It is recommended that you exit and restart your application after an uncaughtException or unhandledRejection occurs. Packages such as [pm2](https://www.npmjs.com/package/pm2) and [forever](https://www.npmjs.com/package/forever) can be configured to restart your application.
 
 Additionally you can use [domains](https://nodejs.org/api/domain.html#domain_warning_don_t_ignore_errors) to handle errors differently across various parts of your application. Domains are pending deprecation according the the Node.js [documentation](https://nodejs.org/api/domain.html), however a suitable replacement has not been added yet.
 
 More information regarding domain deprecation can be found [here](https://github.com/nodejs/node/issues/10843).
+
 ## Contributing
+
 BugSplat loves open source software! Please check out our project on [GitHub](https://github.com/BugSplat-Git/bugsplat-node) and send us a Pull Request.
