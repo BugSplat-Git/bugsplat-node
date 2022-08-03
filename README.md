@@ -62,7 +62,7 @@ bugsplat.setDefaultAppKey(appKey); // Additional metadata that can be queried vi
 bugsplat.setDefaultUser(user); // The name or id of your user
 bugsplat.setDefaultEmail(email); // The email of your user
 bugsplat.setDefaultDescription(description); // Additional info about your crash that gets reset after every post
-bugsplat.setDefaultAdditionalFilePaths(paths); // Paths to files to be added at post time (limit 1MB)
+bugsplat.setDefaultAdditionalFilePaths(paths); // Paths to files to be added at post time (limit 10MB)
 bugsplat.postAndExit(error); // Wrapper for post that calls process.exit(1) after posting error to BugSplat
 bugsplat.post(error, options); // Posts an arbitrary Error object to BugSplat
 // If the values options.appKey, options.user, options.email, options.description, options.additionalFilePaths are set the corresponding default values will be overwritten
