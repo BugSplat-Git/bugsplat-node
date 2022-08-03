@@ -154,11 +154,11 @@ describe('bugsplat-node', () => {
         it('should log an error when a adding a file to post options if they cause the bundle size limit to be exceeded', async () => {
             const filePath = '💪';
             bugsplatNode._fs.existsSync.and.returnValue(true);
-            bugsplatNode._fs.statSync.and.returnValue({ size: 1000000000000 });
+            bugsplatNode._fs.statSync.and.returnValue({ size: 10000000000000 });
 
             await bugsplatNode.post(new Error('oof'), { additionalFilePaths: [filePath] });
 
-            expect(bugsplatNode._console.error).toHaveBeenCalledWith(`BugSplat upload limit of 1MB exceeded, skipping file: ${filePath}`);
+            expect(bugsplatNode._console.error).toHaveBeenCalledWith(`BugSplat upload limit of 10MB exceeded, skipping file: ${filePath}`);
         });
 
         it('should log an error when specified file does not exist at path', async () => {

@@ -45,7 +45,7 @@ export class BugSplatNode extends BugSplat {
             if (this._fs.existsSync(filePath)) {
                 const fileSize = this._fs.statSync(filePath).size;
                 totalZipSize = totalZipSize + fileSize;
-                if (totalZipSize <= 1048576) {
+                if (totalZipSize <= 10485760) {
                     const fileName = this._path.basename(filePath);
                     const fileContents = this._fs.createReadStream(filePath);
                     params.push({
@@ -53,7 +53,7 @@ export class BugSplatNode extends BugSplat {
                         value: <fs.ReadStream>fileContents
                     });
                 } else {
-                    this._console.error(`BugSplat upload limit of 1MB exceeded, skipping file: ${filePath}`);
+                    this._console.error(`BugSplat upload limit of 10MB exceeded, skipping file: ${filePath}`);
                     totalZipSize = totalZipSize - fileSize;
                 }
             } else {
