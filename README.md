@@ -1,13 +1,25 @@
-[![BugSplat](https://s3.amazonaws.com/bugsplat-public/npm/header.png)](https://www.bugsplat.com)
+[![bugsplat-github-banner-basic-outline](https://user-images.githubusercontent.com/20464226/149019306-3186103c-5315-4dad-a499-4fd1df408475.png)](https://bugsplat.com)
+<br/>
+# <div align="center">BugSplat</div> 
+### **<div align="center">Crash and error reporting built for busy developers.</div>**
+<div align="center">
+    <a href="https://twitter.com/BugSplatCo">
+        <img alt="Follow @bugsplatco on Twitter" src="https://img.shields.io/twitter/follow/bugsplatco?label=Follow%20BugSplat&style=social">
+    </a>
+    <a href="https://discord.gg/K4KjjRV5ve">
+        <img alt="Join BugSplat on Discord" src="https://img.shields.io/discord/664965194799251487?label=Join%20Discord&logo=Discord&style=social">
+    </a>
+</div>
+<br>
 
-![travis-ci](https://travis-ci.org/BugSplat-Git/bugsplat-node.svg?branch=master)
-## Introduction
+## 👋 Introduction
 
 BugSplat-node is a JavaScript error reporting system for Node.js and Electron applications. Before continuing with the tutorial please make sure you have completed the following checklist:
-* [Sign Up](https://app.bugsplat.com/v2/sign-up) as a new BugSplat user.
-* [Log In](https://app.bugsplat.com/auth0/login) using your email address.
+* [Sign Up](https://app.bugsplat.com/v2/sign-up) as a new BugSplat user
+* Complete the [Welcome](https://app.bugsplat.com/v2/welcome) workflow and make a note of your BugSplat database
+* Review our [my-node-crasher](https://github.com/BugSplat-Git/my-node-crasher) or [my-electron-crasher](https://github.com/BugSplat-Git/my-electron-crasher) projects to see a sample Node.js project integrated with BugSplat
 
-## Configuration
+## ⚙️ Configuration
 
 To add the bugsplat package to your application, run the following shell command at the root of your project’s directory:
 ```shell
@@ -54,7 +66,7 @@ After posting an error with bugsplat-node, navigate to the [Crashes](https://app
 
 That’s it! Your application is now configured to post crash reports to BugSplat.
 
-## API
+## 🧩 API
 
 In addition to the configuration demonstrated above, there are a few public methods that can be used to customize your BugSplat integration:
 ```js
@@ -69,7 +81,7 @@ bugsplat.post(error, options); // Posts an arbitrary Error object to BugSplat
 // Returns a promise that resolves with properties: error (if there was an error posting to BugSplat), response (the response from the BugSplat crash post API), and original (the error passed by bugsplat.post)
 ```
 
-## Additional Considerations
+## 🤔 Additional Considerations
 
 It is recommended that you exit and restart your application after an uncaughtException or unhandledRejection occurs. Packages such as [pm2](https://www.npmjs.com/package/pm2) and [forever](https://www.npmjs.com/package/forever) can be configured to restart your application.
 
@@ -77,6 +89,6 @@ Additionally you can use [domains](https://nodejs.org/api/domain.html#domain_war
 
 More information regarding domain deprecation can be found [here](https://github.com/nodejs/node/issues/10843).
 
-## Contributing
+## 🧑‍💻 Contributing
 
-BugSplat loves open source software! Please check out our project on [GitHub](https://github.com/BugSplat-Git/bugsplat-node) and send us a Pull Request.
+BugSplat loves open source software! Please check out our project on [GitHub](https://github.com/BugSplat-Git/bugsplat-node) and send us a [pull request](https://github.com/BugSplat-Git/bugsplat-node/pulls). Found an bug or have a feature request? Open an [issue](https://github.com/BugSplat-Git/bugsplat-node/issues) and we'll address it.
