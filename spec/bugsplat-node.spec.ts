@@ -67,8 +67,10 @@ describe('bugsplat-node', () => {
             };
             bugsplatNode._fs = {
                 existsSync: jasmine.createSpy(),
-                statSync: jasmine.createSpy(),
-                createReadStream: jasmine.createSpy(),
+                promises: {
+                    stat: jasmine.createSpy(),
+                    readFile: jasmine.createSpy(),
+                }
             };
             bugsplatNode._path = {
                 basename: jasmine.createSpy()
@@ -91,21 +93,21 @@ describe('bugsplat-node', () => {
             const filePath = '/path/to/❤️';
             const key = '🐶';
             const value = '🐛';
-            bugsplatNode._fs.statSync.and.returnValue({ size: 0 });
+            bugsplatNode._fs.promises.stat.and.resolveTo({ size: 0 });
             bugsplatNode._fs.existsSync.and.returnValue(true);
-            bugsplatNode._fs.createReadStream.and.returnValue(value);
+            bugsplatNode._fs.promises.readFile.and.resolveTo(value);
             bugsplatNode._path.basename.and.returnValue(key);
 
             bugsplatNode.setDefaultAdditionalFilePaths([filePath]);
             await bugsplatNode.post(new Error('oof'));
 
-            expect(bugsplatNode._fs.statSync).toHaveBeenCalledWith(filePath);
+            expect(bugsplatNode._fs.promises.stat).toHaveBeenCalledWith(filePath);
             expect(bugsplat.post).toHaveBeenCalledWith(
                 jasmine.anything(),
                 jasmine.objectContaining({
                     additionalFormDataParams: [{
                         key,
-                        value
+                        value: new Blob([value])
                     }]
                 })
             );
@@ -116,22 +118,22 @@ describe('bugsplat-node', () => {
             const optionsFilePath = '/path/to/💕';
             const key = '🐶';
             const value = '🐛';
-            bugsplatNode._fs.statSync.and.returnValue({ size: 0 });
+            bugsplatNode._fs.promises.stat.and.resolveTo({ size: 0 });
             bugsplatNode._fs.existsSync.and.returnValue(true);
-            bugsplatNode._fs.createReadStream.and.returnValue(value);
+            bugsplatNode._fs.promises.readFile.and.resolveTo(value);
             bugsplatNode._path.basename.and.returnValue(key);
 
             bugsplatNode.setDefaultAdditionalFilePaths([defaultFilePath]);
             await bugsplatNode.post(new Error('oof'), { additionalFilePaths: [optionsFilePath] });
 
-            expect(bugsplatNode._fs.statSync).not.toHaveBeenCalledWith(defaultFilePath);
-            expect(bugsplatNode._fs.statSync).toHaveBeenCalledWith(optionsFilePath);
+            expect(bugsplatNode._fs.promises.stat).not.toHaveBeenCalledWith(defaultFilePath);
+            expect(bugsplatNode._fs.promises.stat).toHaveBeenCalledWith(optionsFilePath);
             expect(bugsplat.post).toHaveBeenCalledWith(
                 jasmine.anything(),
                 jasmine.objectContaining({
                     additionalFormDataParams: [{
                         key,
-                        value
+                        value: new Blob([value])
                     }]
                 })
             );
@@ -139,7 +141,7 @@ describe('bugsplat-node', () => {
 
         it('should skip adding files to post options if they cause the bundle size limit to be exceeded', async () => {
             bugsplatNode._fs.existsSync.and.returnValue(true);
-            bugsplatNode._fs.statSync.and.returnValue({ size: 1000000000000 });
+            bugsplatNode._fs.promises.stat.and.resolveTo({ size: 1000000000000 });
 
             await bugsplatNode.post(new Error('oof'), { additionalFilePaths: ['💪'] });
 
@@ -154,7 +156,7 @@ describe('bugsplat-node', () => {
         it('should log an error when a adding a file to post options if they cause the bundle size limit to be exceeded', async () => {
             const filePath = '💪';
             bugsplatNode._fs.existsSync.and.returnValue(true);
-            bugsplatNode._fs.statSync.and.returnValue({ size: 10000000000000 });
+            bugsplatNode._fs.promises.stat.and.resolveTo({ size: 10000000000000 });
 
             await bugsplatNode.post(new Error('oof'), { additionalFilePaths: [filePath] });
 

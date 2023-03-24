@@ -34,7 +34,7 @@
   "author": "@bobbyg603",
   "license": "MIT",
   "dependencies": {
-    "bugsplat": "^7.1.3"
+    "bugsplat": "^8.0.0"
   },
   "devDependencies": {
     "@bugsplat/js-api-client": "^2.0.0",
