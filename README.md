@@ -61,8 +61,9 @@ try {
 
 After posting an error with bugsplat-node, navigate to the [Crashes](https://app.bugsplat.com/v2/crashes?database=Demo) page. You should see a new crash report for the application you just configured. Click the link in the ID column to see details about your crash on the [Crash](https://app.bugsplat.com/v2/crash?database=Demo&id=405) page:
 
-![Crashes](https://s3.amazonaws.com/bugsplat-public/npm/bugsplat-node/crashes.png)
-![Crash](https://s3.amazonaws.com/bugsplat-public/npm/bugsplat-node/crash.png)
+![Crashes](https://github.com/BugSplat-Git/bugsplat-node/assets/2646053/bfd16519-d2c4-40c1-bbad-ed3ef07e1e75)
+
+![Crash](https://github.com/BugSplat-Git/bugsplat-node/assets/2646053/644a25dc-b454-47c5-8ae4-929a3070424b)
 
 That’s it! Your application is now configured to post crash reports to BugSplat.
 
