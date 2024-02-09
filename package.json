@@ -33,7 +33,7 @@
   },
   "author": "@bobbyg603",
   "license": "MIT",
-  "dependencies": {
+  "peerDependencies": {
     "bugsplat": "^8.0.0"
   },
   "devDependencies": {
