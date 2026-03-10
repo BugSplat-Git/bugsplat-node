@@ -1,4 +1,4 @@
-import { BugSplat, FormDataParam } from 'bugsplat';
+import { BugSplat, BugSplatFeedbackOptions, FormDataParam } from 'bugsplat';
 import fs from 'fs';
 import { readFile } from 'fs/promises';
 import path from 'path';
@@ -35,6 +35,22 @@ export class BugSplatNode extends BugSplat {
 
     async postAndExit (errorToPost: Error, options?: BugSplatNodeOptions) {
         return this.post(errorToPost, options).then(() => this._process.exit(1));
+    }
+
+    async postFeedbackWithFiles(title: string, options?: BugSplatFeedbackOptions & { additionalFilePaths?: Array<string> }) {
+        options = options || {};
+
+        const additionalFilePaths = options.additionalFilePaths || [];
+        const additionalFormDataParams = await this.createAdditionalFilesFormParams(additionalFilePaths);
+        delete options.additionalFilePaths;
+
+        return super.postFeedback(title, {
+            ...options,
+            additionalFormDataParams: [
+                ...(options.additionalFormDataParams || []),
+                ...additionalFormDataParams,
+            ]
+        });
     }
 
     private async createAdditionalFilesFormParams(additionalFilePaths: Array<string>): Promise<Array<FormDataParam>> {
