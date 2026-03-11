@@ -34,7 +34,7 @@
   "author": "@bobbyg603",
   "license": "MIT",
   "peerDependencies": {
-    "bugsplat": "^8.0.0"
+    "bugsplat": "^9.0.0"
   },
   "devDependencies": {
     "@bugsplat/js-api-client": "^2.0.0",
