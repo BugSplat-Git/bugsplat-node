@@ -33,7 +33,7 @@ describe('BugSplatNode', () => {
             throw result.error;
         }
     
-        const expectedCrashId = result.response.crash_id;
+        const expectedCrashId = result.response.crashId;
         const client = new BugSplatApiClient(host, Environment.Node);
         await client.login(username, password);
         const crashApiClient = new CrashApiClient(client);

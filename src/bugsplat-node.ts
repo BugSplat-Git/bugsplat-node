@@ -1,6 +1,5 @@
-import { BugSplat, BugSplatFeedbackOptions, FormDataParam } from 'bugsplat';
+import { BugSplat, BugSplatAttachment, BugSplatOptions } from 'bugsplat';
 import fs from 'fs';
-import { readFile } from 'fs/promises';
 import path from 'path';
 import { BugSplatNodeOptions } from './bugsplat-node-options';
 
@@ -24,12 +23,15 @@ export class BugSplatNode extends BugSplat {
         options = options || {};
 
         const additionalFilePaths = options.additionalFilePaths || this._additionalFilePaths;
-        const additionalFormDataParams = await this.createAdditionalFilesFormParams(additionalFilePaths);
+        const fileAttachments = await this.createAttachmentsFromFilePaths(additionalFilePaths);
         delete options.additionalFilePaths;
 
         return super.post(errorToPost, {
             ...options,
-            additionalFormDataParams
+            attachments: [
+                ...(options.attachments || []),
+                ...fileAttachments,
+            ],
         });
     }
 
@@ -37,24 +39,24 @@ export class BugSplatNode extends BugSplat {
         return this.post(errorToPost, options).then(() => this._process.exit(1));
     }
 
-    async postFeedbackWithFiles(title: string, options?: BugSplatFeedbackOptions & { additionalFilePaths?: Array<string> }) {
+    async postFeedbackWithFiles(title: string, options?: BugSplatOptions & { additionalFilePaths?: Array<string> }) {
         options = options || {};
 
         const additionalFilePaths = options.additionalFilePaths || [];
-        const additionalFormDataParams = await this.createAdditionalFilesFormParams(additionalFilePaths);
+        const fileAttachments = await this.createAttachmentsFromFilePaths(additionalFilePaths);
         delete options.additionalFilePaths;
 
         return super.postFeedback(title, {
             ...options,
-            additionalFormDataParams: [
-                ...(options.additionalFormDataParams || []),
-                ...additionalFormDataParams,
-            ]
+            attachments: [
+                ...(options.attachments || []),
+                ...fileAttachments,
+            ],
         });
     }
 
-    private async createAdditionalFilesFormParams(additionalFilePaths: Array<string>): Promise<Array<FormDataParam>> {
-        const params: Array<any> = [];
+    private async createAttachmentsFromFilePaths(additionalFilePaths: Array<string>): Promise<Array<BugSplatAttachment>> {
+        const attachments: Array<BugSplatAttachment> = [];
 
         let totalZipSize = 0;
         for (var i = 0; i < additionalFilePaths.length; i++) {
@@ -66,9 +68,9 @@ export class BugSplatNode extends BugSplat {
                 if (totalZipSize <= 10485760) {
                     const fileName = this._path.basename(filePath);
                     const fileContents = await this._fs.promises.readFile(filePath);
-                    params.push({
-                        key: fileName,
-                        value: new Blob([fileContents])
+                    attachments.push({
+                        filename: fileName,
+                        data: new Blob([fileContents]),
                     });
                 } else {
                     this._console.error(`BugSplat upload limit of 10MB exceeded, skipping file: ${filePath}`);
@@ -79,6 +81,6 @@ export class BugSplatNode extends BugSplat {
             }
         }
 
-        return params;
+        return attachments;
     }
 }

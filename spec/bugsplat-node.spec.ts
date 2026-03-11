@@ -85,18 +85,18 @@ describe('bugsplat-node', () => {
 
             expect(bugsplat.post).toHaveBeenCalledWith(error, {
                 ...options,
-                additionalFormDataParams: []
+                attachments: []
             });
         });
 
-        it('should add additionalFilePaths to post options as form params', async () => {
+        it('should add additionalFilePaths to post options as attachments', async () => {
             const filePath = '/path/to/❤️';
-            const key = '🐶';
+            const filename = '🐶';
             const value = '🐛';
             bugsplatNode._fs.promises.stat.and.resolveTo({ size: 0 });
             bugsplatNode._fs.existsSync.and.returnValue(true);
             bugsplatNode._fs.promises.readFile.and.resolveTo(value);
-            bugsplatNode._path.basename.and.returnValue(key);
+            bugsplatNode._path.basename.and.returnValue(filename);
 
             bugsplatNode.setDefaultAdditionalFilePaths([filePath]);
             await bugsplatNode.post(new Error('oof'));
@@ -105,9 +105,9 @@ describe('bugsplat-node', () => {
             expect(bugsplat.post).toHaveBeenCalledWith(
                 jasmine.anything(),
                 jasmine.objectContaining({
-                    additionalFormDataParams: [{
-                        key,
-                        value: new Blob([value])
+                    attachments: [{
+                        filename,
+                        data: new Blob([value])
                     }]
                 })
             );
@@ -116,12 +116,12 @@ describe('bugsplat-node', () => {
         it('should overwrite default additionalFilePaths if provided by post options', async () => {
             const defaultFilePath = '/path/to/❤️';
             const optionsFilePath = '/path/to/💕';
-            const key = '🐶';
+            const filename = '🐶';
             const value = '🐛';
             bugsplatNode._fs.promises.stat.and.resolveTo({ size: 0 });
             bugsplatNode._fs.existsSync.and.returnValue(true);
             bugsplatNode._fs.promises.readFile.and.resolveTo(value);
-            bugsplatNode._path.basename.and.returnValue(key);
+            bugsplatNode._path.basename.and.returnValue(filename);
 
             bugsplatNode.setDefaultAdditionalFilePaths([defaultFilePath]);
             await bugsplatNode.post(new Error('oof'), { additionalFilePaths: [optionsFilePath] });
@@ -131,9 +131,9 @@ describe('bugsplat-node', () => {
             expect(bugsplat.post).toHaveBeenCalledWith(
                 jasmine.anything(),
                 jasmine.objectContaining({
-                    additionalFormDataParams: [{
-                        key,
-                        value: new Blob([value])
+                    attachments: [{
+                        filename,
+                        data: new Blob([value])
                     }]
                 })
             );
@@ -148,7 +148,7 @@ describe('bugsplat-node', () => {
             expect(bugsplat.post).toHaveBeenCalledWith(
                 jasmine.anything(),
                 jasmine.objectContaining({
-                    additionalFormDataParams: []
+                    attachments: []
                 })
             );
         });
