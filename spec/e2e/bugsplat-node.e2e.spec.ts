@@ -45,4 +45,27 @@ describe('BugSplatNode', () => {
         expect(crashData['user']).toBeTruthy() // Fred has PII obfuscated so the best we can do here is to check if truthy
         expect(crashData['email']).toBeTruthy()  // Fred has PII obfuscated so the best we can do here is to check if truthy
     }, 30000);
+
+    it('should post user feedback with all provided information', async () => {
+        const database = 'fred';
+        const appName = 'my-node-crasher';
+        const appVersion = '1.2.3.4';
+        const title = 'Login button broken';
+        const user = 'User!';
+        const email = 'fred@bedrock.com';
+        const description = 'Nothing happens when I tap it';
+        const additionalFile = './spec/e2e/files/additionalFile.txt';
+        const bugsplat = new BugSplatNode(database, appName, appVersion);
+        bugsplat.setDefaultUser(user);
+        bugsplat.setDefaultEmail(email);
+
+        const result = await bugsplat.postFeedback(title, {
+            description,
+            additionalFilePaths: [additionalFile],
+        });
+
+        expect(result.error).toBeNull();
+        expect(result.response.status).toEqual('success');
+        expect(result.response.crash_id).toBeGreaterThan(0);
+    }, 30000);
 });
