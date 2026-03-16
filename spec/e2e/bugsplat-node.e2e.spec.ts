@@ -1,17 +1,16 @@
+import { describe, it, expect } from 'vitest';
 import { BugSplatNode } from '../../src/index';
 import { BugSplatApiClient, Environment, CrashApiClient } from '@bugsplat/js-api-client';
 const username = 'fred@bugsplat.com';
-const password = process.env.FRED_PASSWORD ?? '';
 const host = 'https://app.bugsplat.com';
 
 describe('BugSplatNode', () => {
-    beforeEach(() => {
+    it('should post a crash report with all provided information', async () => {
+        const password = process.env.FRED_PASSWORD ?? '';
         if (!password) {
             throw new Error('Please set FRED_PASSWORD environment variable');
         }
-    });
 
-    it('should post a crash report with all provided information', async () => {
         const database = 'fred';
         const appName = 'my-node-crasher';
         const appVersion = '1.2.3.4';
@@ -28,17 +27,17 @@ describe('BugSplatNode', () => {
         bugsplat.setDefaultDescription(description);
         bugsplat.setDefaultAdditionalFilePaths([additionalFile]);
         const result = await bugsplat.post(error);
-        
+
         if (result.error) {
             throw result.error;
         }
-    
-        const expectedCrashId = result.response.crashId;
+
+        const expectedCrashId = result.response.crash_id;
         const client = new BugSplatApiClient(host, Environment.Node);
         await client.login(username, password);
         const crashApiClient = new CrashApiClient(client);
         const crashData = await crashApiClient.getCrashById(database, expectedCrashId);
-    
+
         expect(crashData['appName']).toEqual(appName);
         expect(crashData['appVersion']).toEqual(appVersion);
         expect(crashData['appKey']).toEqual(appKey);
