@@ -4,10 +4,9 @@
   "description": "BugSplat integration for node.js 12+",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "ts-node node_modules/jasmine/bin/jasmine --config=spec/support/jasmine.spec.json",
-    "test:teamcity": "ts-node node_modules/jasmine/bin/jasmine --config=spec/support/jasmine.teamcity.spec.json",
-    "e2e": "ts-node node_modules/jasmine/bin/jasmine --config=spec/support/jasmine.e2e.json",
-    "e2e:teamcity": "ts-node node_modules/jasmine/bin/jasmine --config=spec/support/jasmine.teamcity.e2e.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "vitest run --config vitest.e2e.config.ts",
     "build": "tsc",
     "release": "npm run build && npm publish --access public"
   },
@@ -34,15 +33,13 @@
   "author": "@bobbyg603",
   "license": "MIT",
   "peerDependencies": {
-    "bugsplat": "^8.0.0"
+    "bugsplat": "^9.0.0"
   },
   "devDependencies": {
     "@bugsplat/js-api-client": "^2.0.0",
-    "@types/jasmine": "^4.0.3",
-    "@types/node": "^16.11.47",
-    "jasmine": "^4.3.0",
-    "jasmine-reporters": "^2.5.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.7.4"
+    "@types/node": "^22.19.15",
+    "dotenv": "^17.3.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
   }
 }
