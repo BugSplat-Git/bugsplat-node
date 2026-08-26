@@ -14,10 +14,10 @@
 
 ## 👋 Introduction
 
-BugSplat-node is a JavaScript error reporting system for Node.js and Electron applications. Before continuing with the tutorial please make sure you have completed the following checklist:
+BugSplat-node is a JavaScript error reporting system for Node.js applications. For Electron apps, use [@bugsplat/electron](https://github.com/BugSplat-Git/bugsplat-electron), which wires native crash reporting and JavaScript errors from a single `init()`. Before continuing with the tutorial please make sure you have completed the following checklist:
 * [Sign Up](https://app.bugsplat.com/v2/sign-up) as a new BugSplat user
 * Complete the [Welcome](https://app.bugsplat.com/v2/welcome) workflow and make a note of your BugSplat database
-* Review our [my-node-crasher](https://github.com/BugSplat-Git/my-node-crasher) or [my-electron-crasher](https://github.com/BugSplat-Git/my-electron-crasher) projects to see a sample Node.js project integrated with BugSplat
+* Review our [my-node-crasher](https://github.com/BugSplat-Git/my-node-crasher) or [bugsplat-electron example](https://github.com/BugSplat-Git/bugsplat-electron/tree/main/example) projects to see a sample Node.js project integrated with BugSplat
 
 ## ⚙️ Configuration
 
