@@ -1,3 +1,13 @@
+> [!WARNING]
+> **bugsplat-node is deprecated.** `BugSplatNode` now ships inside [`bugsplat`](https://www.npmjs.com/package/bugsplat) as the `bugsplat/node` entry point with the same API. Replace the dependency with `bugsplat@^9.3.0` and change the import:
+>
+> ```diff
+> - import { BugSplatNode } from 'bugsplat-node';
+> + import { BugSplatNode } from 'bugsplat/node';
+> ```
+>
+> This repository is kept for history and will receive no further releases.
+
 [![bugsplat-github-banner-basic-outline](https://user-images.githubusercontent.com/20464226/149019306-3186103c-5315-4dad-a499-4fd1df408475.png)](https://bugsplat.com)
 <br/>
 # <div align="center">BugSplat</div> 
